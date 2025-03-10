@@ -2,7 +2,7 @@ import React from 'react';
 import SignIn from './signIn/SignIn';
 import SignUp from './signUp/SignUp';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Dashboard from './dashBoard/dashBoard';
+import Dashboard from './whatsapp-dashboard/dashBoard';
 
 const App = () => {
   return (
@@ -10,7 +10,7 @@ const App = () => {
       <Router>
         <Routes>
         <Route path="/" element={<SignIn />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard" element={< Dashboard/>} />
           <Route path="/signin" element={
               <SignIn />
           }/>
