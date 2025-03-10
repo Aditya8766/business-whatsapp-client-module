@@ -1,43 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GoogleLogin } from '@react-oauth/google';
 import { Box, Button, TextField, Typography } from '@mui/material';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [googleSignIn, setGoogleSignIn] = useState(false); // State to track Google Sign-In
   const navigate = useNavigate(); // Navigate to dashboard after sign-in
 
-  const handleGoogleSignIn = async (response) => {
-    if (response?.credential) {
-      const token = response.credential;
-
-      try {
-        const backendResponse = await fetch('http://localhost:3000/google-signin', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token }),
-        });
-
-        const result = await backendResponse.json();
-        if (backendResponse.ok) {
-          alert('Google Sign-in successful!');
-          navigate('/dashboard');
-        } else {
-          setErrorMessage(result.error || 'Error signing in with Google');
-        }
-      } catch (error) {
-        console.error('Error during Google Sign-in:', error);
-        setErrorMessage('Error signing in with Google');
-      }
-    } else {
-      setErrorMessage('Google Sign-In failed.');
-    }
-  };
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -87,26 +57,6 @@ const SignIn = () => {
       >
         <Typography variant="h5" gutterBottom>
           Sign In
-        </Typography>
-
-        {!googleSignIn ? (
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            onClick={() => setGoogleSignIn(true)}
-          >
-            Sign In with Google
-          </Button>
-        ) : (
-          <GoogleLogin
-            onSuccess={handleGoogleSignIn}
-            onError={() => setErrorMessage('Google Sign-In failed')}
-          />
-        )}
-
-        <Typography variant="body1" my={2}>
-          OR
         </Typography>
 
         <form onSubmit={handleSignIn}>
